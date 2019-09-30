@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+// import axios from 'axios'
 import './App.css';
+import { BrowserRouter as Router , Route , Switch } from 'react-router-dom'
+// import { userModule } from './api/api';
+// import EmployeeList from './components/employeeList'
+// import AddEmployee from './components/AddEmployee'
+// import {NotificationContainer} from 'react-notifications';
+import Signup from './components/Signup';
+import Login from './components/Login';
+// import logout from './components/logout';
+ 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+    class App extends Component {
+    render() {
+      return (
+        <div>
+          <Router >
+            <Switch>
+              <Route exact path="/" component={Login}></Route>
+              <Route exact path="/signup" component={Signup}></Route>
+              {/* <Route exact path="/addemployee" component={AddEmployee}></Route>
+              <Route exact path="/signup" component={Signup}></Route>
+              <Route exact path="/signin" component={Login}></Route>
+              <Route exact path="/logout" component={logout}></Route> */}
+            </Switch>
+            {/* <NotificationContainer></NotificationContainer> */}
+          </Router>
+        </div>
+          );
+    }
+  }
+
+
 
 export default App;
