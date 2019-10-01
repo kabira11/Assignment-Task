@@ -5,7 +5,7 @@ import { BrowserRouter as Router , Route , Switch } from 'react-router-dom'
 // import { userModule } from './api/api';
 // import EmployeeList from './components/employeeList'
 // import AddEmployee from './components/AddEmployee'
-// import {NotificationContainer} from 'react-notifications';
+import {NotificationContainer} from 'react-notifications';
 import Signup from './components/Signup';
 import Login from './components/Login';
 // import logout from './components/logout';
@@ -25,7 +25,7 @@ import Login from './components/Login';
               <Route exact path="/signin" component={Login}></Route>
               <Route exact path="/logout" component={logout}></Route> */}
             </Switch>
-            {/* <NotificationContainer></NotificationContainer> */}
+            <NotificationContainer></NotificationContainer>
           </Router>
         </div>
           );
