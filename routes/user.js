@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs')
 const config = require('../config/database')
 const sec = config.jwtSecret;
 const jwt = require ('jsonwebtoken')
+const auth = require('../middleware/auth')
+
 
 
 
@@ -16,6 +18,24 @@ const jwt = require ('jsonwebtoken')
     res.send(user)
 })
 
+router.post('/login' , async (req , res) => {
+    console.log("oopppopopo")
+    console.log(req.body)
+    // res.send({
+    //     "ok" : true
+    // })
+    //using async await
+    try {
+        console.log("uiiiuiuiuui")
+        const user = await User.findByCredentials(req.body.email , req.body.password)
+        console.log("8888888")
+        const token = await user.generateAuthToken()
+        res.status(201).send({user:user,token})
+    }catch (err) {
+        res.status(400).send(err)
+    }
+    
+})
 
 
 router.post("/checklogin" , async (req,res) => {
@@ -56,6 +76,23 @@ router.post("/" , async (req,res) => {
         res.status(400).send(err)
     }
  })
+
+
+ router.post('/logout' ,auth, async (req , res) => {
+    //using async await
+    try {
+
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.send()
+    }catch (err) {
+        console.log("error")
+        res.status(500).send(err)
+    }
+    
+})
 
  //Get data
  router.get("/:employeeId" , async (req , res) => {

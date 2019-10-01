@@ -65,7 +65,8 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this 
-    const token = jwt.sign({_id: user._id.toString()} , 'thisismynewcourse' ,{expiresIn: '7 days'})
+    console.log("object")
+    const token = jwt.sign({_id: user._id.toString()} , 'thisismysecret' ,{expiresIn: '7 days'})
 
     user.tokens = user.tokens.concat({token})
 
@@ -74,4 +75,25 @@ userSchema.methods.generateAuthToken = async function () {
     return token
 }
 
-module.exports = mongoose.model('User' , userSchema);
+userSchema.statics.findByCredentials = async (email , password) => {
+    console.log(email)
+    console.log(password)
+    const user = await User.findOne({email})
+    console.log(user)
+
+    if (!user) {
+        throw new Error('Unable to login')
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    if(!isMatch) {
+        throw new Error('Unable to login')
+    }
+
+    return user
+}
+
+const User = mongoose.model('User' , userSchema)
+
+module.exports = User;

@@ -24,10 +24,6 @@ class Signup extends Component {
         //[event.target.name] for getting value from form with refernece of name properties
         this.setState({
             [event.target.name]: event.target.value
-            // [event.target.value.fullName]: event.target.value ,
-            // [event.target.value.email]: event.target.value ,
-            // [event.target.value.mobile]: event.target.value,
-            // [event.target.value.city]: event.target.value
         })
         event.preventDefault();
     }

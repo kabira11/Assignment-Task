@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-// import { loginApi } from '../api/loginapi'
-// import  { alertmesage }  from './alertMessage';
+import {userApi} from '../api/userApi';
+import  { alertmesage }  from './alertMessage';
 
 class Login extends Component {
 
@@ -11,19 +11,21 @@ class Login extends Component {
             email: "",
             password: ""
         }
-        this.handleSubmitForm =  this.handleSubmitForm.bind(this);
-        this.handleChange =  this.handleChange.bind(this);
+        // this.handleSubmitForm =  this.handleSubmitForm.bind(this);
+        // this.handleChange =  this.handleChange.bind(this);
 
     }
 
-    handleChange(event){
+    handleChange = (event) => {
+        console.log(event.target.value);
+        //[event.target.name] for getting value from form with refernece of name properties
         this.setState({
-            email: this.refs.email.value,
-            password: this.refs.password.value
+            [event.target.name]: event.target.value
         })
+        event.preventDefault();
     }
 
-    async handleSubmitForm(event){
+     handleSubmitForm = async (event) => {
         event.preventDefault();
 
         
@@ -35,27 +37,31 @@ class Login extends Component {
 
         if(this.state.email && this.state.password){
             // const res = await loginApi.loginCheck(this.state)
+            const res = await userApi.login(this.state)
  
             // // //for redirecting home page
             // console.log(res);
-            // if(res.status == 201){
-            //     console.log(res.data.email);
-            //     sessionStorage.setItem("email", res.data.email);
-            //     this.setState({
-            //         email: "" ,
-            //         password: "" 
-            //     });
-            //     console.log(sessionStorage.getItem("email"))
-            //     this.props.history.push("/");
-            //     alertmesage.createNotification(res.status,"Logged in Successfully")
+            if(res.status == 201){
+                console.log("0000000000000000000000000000");
+                console.log(res);
+                sessionStorage.setItem("token", res.data.token);
+                sessionStorage.setItem("email", res.data.user.email);
+                sessionStorage.setItem("name", res.data.user.firstName);
+                this.setState({
+                    email: "" ,
+                    password: "" 
+                });
+                // console.log(sessionStorage.getItem("email"))
+                this.props.history.push("/profile");
+                alertmesage.createNotification(res.status,"Logged in Successfully")
                 
-            // }else{
-            //     alertmesage.createNotification(res.status,res.message)
-            // }
+            }else{
+                alertmesage.createNotification(res.status,res.message)
+            }
 
         }else{
             //Alert message
-            // alertmesage.createNotification(400,"Did you miss filling some field.")
+            alertmesage.createNotification(400,"Did you miss filling some field.")
         }
 
      }
@@ -65,8 +71,8 @@ class Login extends Component {
         <form className="text-center border border-light p-5" onSubmit={this.handleSubmitForm}>
             <div className = "col-md-4 offset-md-4">
                 <p className="h4 mb-4">Log In</p>
-                <input type="email" id="defaultRegisterFormEmail" className="form-control mb-4" onChange={this.handleChange} placeholder="E-mail" ref="email"/>
-                <input type="password" id="defaultRegisterFormPassword" className="form-control" onChange={this.handleChange} placeholder="Password" ref="password" aria-describedby="defaultRegisterFormPasswordHelpBlock"/>
+                <input type="email" id="defaultRegisterFormEmail" className="form-control mb-4" onChange={this.handleChange} placeholder="E-mail" name="email"/>
+                <input type="password" id="defaultRegisterFormPassword" className="form-control" onChange={this.handleChange} placeholder="Password" name="password" aria-describedby="defaultRegisterFormPasswordHelpBlock"/>
                 <p>Not a member?
           
                     <Link 

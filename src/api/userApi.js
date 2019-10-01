@@ -65,10 +65,15 @@ export const userApi = {
     return ApiService.post( 'http://localhost:5005/user',user)
   },
 
-//   loginCheck(user) {
-//     console.log(user)
-//   return ApiService.post( 'http://localhost:5004/user/checklogin',user)
-//   },
+  login(user) {
+    console.log(user)
+  return ApiService.post( 'http://localhost:5005/user/login',user)
+  },
+
+  logout(user) {
+    console.log(user)
+  return ApiService.post( 'http://localhost:5005/user/logout',user)
+  },
 
   updateUser(user) {
     return ApiService.put( 'http://localhost:5004/employee/'+user['_id'],user)

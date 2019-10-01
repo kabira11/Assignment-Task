@@ -8,7 +8,9 @@ import { BrowserRouter as Router , Route , Switch } from 'react-router-dom'
 import {NotificationContainer} from 'react-notifications';
 import Signup from './components/Signup';
 import Login from './components/Login';
-// import logout from './components/logout';
+import Profile from './components/profilePage';
+import Navbar from './components/Navbar'
+import logout from './components/logout';
  
 
 
@@ -16,10 +18,14 @@ import Login from './components/Login';
     render() {
       return (
         <div>
+         
           <Router >
+          
             <Switch>
               <Route exact path="/" component={Login}></Route>
               <Route exact path="/signup" component={Signup}></Route>
+              <Route exact path="/profile" component={Profile}></Route>
+              <Route exact path="/logout" component={logout}></Route>
               {/* <Route exact path="/addemployee" component={AddEmployee}></Route>
               <Route exact path="/signup" component={Signup}></Route>
               <Route exact path="/signin" component={Login}></Route>
